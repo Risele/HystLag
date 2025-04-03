@@ -11,7 +11,53 @@ Supports both:
 - Time lag for stabilization (highLag, lowLag)
 - Direction control (UP or DOWN triggering)
 ---
+## Usage
 
+The very minumum example:
+### C style
+```C
+#include "HystLag_C.h"
+
+unsigned long millis = 0; //time counter, replace with your own.
+float read_sensor() {
+    return (millis%1000) < 250 ? 2.0f : 8.0f;
+}
+int main(void) {
+    HystLag hyst;
+    HystLag_init(&hyst, 3.0f, 7.0f, 50, 50, HYST_DIR_UP);
+
+    while (1) {
+        float input = read_sensor();
+        hystlag_update(&hyst, input, millis);
+        if (hystlag_is_active(&hyst)) {
+            // Do something: e.g. turn on relay, LED, fan, etc.
+        } else {
+            // Deactivate output
+        }
+        millis += 10; // Simulate time step 
+    }
+    return 0;
+}
+```
+### C++ style:
+```Cpp
+#include "HystLag.h"
+
+int main() {
+    HystLag hyst(3.0f, 7.0f, 50, 50, HystLag::UP);
+    while (true) {
+        float input = readSensor();
+        hyst.update(input, millis);
+        if (hyst.isActive()) {
+          // Do something: e.g. turn on relay, LED, fan, etc.
+        } else {
+           // Deactivate output
+        }
+        millis += 10;  // Simulate time step 
+    }
+    return 0;
+}
+```
 ## 📦 Files
 
 ```text
