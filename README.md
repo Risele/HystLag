@@ -30,15 +30,15 @@ HystLag_C.h/.c    → C-compatible interface and logic
 
 ### C++:
 ```bash
-g++ -std=c++11 tests/main.cpp -o test_cpp
-./test_cpp
+g++ -std=c++11 -o HystLag_C_Test HystLag_Cpp_Test.cpp
+HystLag_CPP.exe
 pause 
 ```
 
 ### C:
 ```bash
-g++ -std=c++11 -o HystLag_CPP HystLag_Cpp_Test.cpp
-HystLag_CPP.exe
+gcc HystLag_C.c HystLag_C_Test.c -o HystLag_C_Test
+HystLag_C_Test.exe
 pause
 ```
 
