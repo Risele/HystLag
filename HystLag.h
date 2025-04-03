@@ -10,7 +10,13 @@ public:
 
     HystLag(float low, float high, unsigned long lowLag = 0, unsigned long highLag = 0, Direction direction = UP)
         : _low(low), _high(high), _lowLag(lowLag), _highLag(highLag),
-          _direction(direction), _state(BETWEEN), _latchedState(BETWEEN), _stable(false), _lagStart(0) {}
+          _direction(direction), _state(BETWEEN), _latchedState(BETWEEN), _stable(false), _lagStart(0) {
+		if (low > high) {
+			float tmp = _low;
+			_low = _high;
+			_high = tmp;
+    		}
+	  }
 
    bool update(float value, unsigned long currentTime) {
     State newState = calculateState(value);
