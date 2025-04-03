@@ -9,6 +9,11 @@ static HystState calculate_state(const HystLag* h, float value) {
 }
 
 void hystlag_init(HystLag* h, float low, float high, unsigned long lowLag, unsigned long highLag, HystDir dir) {
+    if (low > high) {
+        float tmp = low;
+        low = high;
+	high = tmp;
+    }
     h->low = low;
     h->high = high;
     h->lowLag = lowLag;
