@@ -30,3 +30,23 @@
 *.exe
 *.out
 *.app
+
+
+# Ignore build artifacts
+*.o
+*.out
+*.exe
+test_*
+
+# Ignore CSV test outputs
+*.csv
+
+# OS & editor specific
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+
+# VSCode
+.vscode/
