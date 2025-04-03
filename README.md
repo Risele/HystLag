@@ -43,6 +43,10 @@ int main(void) {
 ```Cpp
 #include "HystLag.h"
 
+unsigned long millis = 0; //time counter, replace with your own.
+float read_sensor() {
+    return (millis%1000) < 250 ? 2.0f : 8.0f;
+}
 int main() {
     HystLag hyst(3.0f, 7.0f, 50, 50, HystLag::UP);
     while (true) {
