@@ -80,8 +80,8 @@ HystLag_C.h/.c    → C-compatible interface and logic
 
 ### C++:
 ```bash
-g++ -std=c++11 -o HystLag_C_Test HystLag_Cpp_Test.cpp
-HystLag_CPP.exe
+g++ -std=c++11 -o HystLag_Cpp_Test HystLag_Cpp_Test.cpp
+HystLag_Cpp_Test.exe
 pause 
 ```
 
