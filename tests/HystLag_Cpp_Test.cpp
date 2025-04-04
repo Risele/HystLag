@@ -5,8 +5,8 @@ int main() {
 	testSimpleDown();
 	testInstantUpNoLag();
 	testInstantDownNoLag();
-	testHighLagUp();
-	testLowLagDown();
+	testOnLagUp();
+	testOffLagDown();
 	testBetweenNeverActivates();
 	testRapidToggling();
 	testFullCoverageSequence();

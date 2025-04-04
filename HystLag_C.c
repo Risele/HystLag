@@ -8,7 +8,7 @@ static HystState calculate_state(const HystLag* h, float value) {
     return HYST_BETWEEN;
 }
 
-void hystlag_init(HystLag* h, float low, float high, unsigned long lowLag, unsigned long highLag, HystDir dir) {
+void hystlag_init(HystLag* h, float low, float high, unsigned long offLag, unsigned long onLag, HystDir dir) {
     if (low > high) {
         h->high = low;
         h->low = high;
@@ -17,8 +17,8 @@ void hystlag_init(HystLag* h, float low, float high, unsigned long lowLag, unsig
         h->high = high;
     }
        
-    h->lowLag = lowLag;
-    h->highLag = highLag;
+    h->offLag = offLag;
+    h->onLag = onLag;
     h->direction = dir;
     hystlag_reset(h);
 }
@@ -46,8 +46,8 @@ int hystlag_update(HystLag* h, float value, unsigned long currentTime) {
 
     if (!h->stable) {
         unsigned long dt = currentTime - h->lagStart;
-        if ((h->state == HYST_HIGH && (h->highLag == 0 || dt >= h->highLag)) ||
-            (h->state == HYST_LOW && (h->lowLag == 0 || dt >= h->lowLag))) {
+        if ((h->state == HYST_HIGH && (h->onLag == 0 || dt >= h->onLag)) ||
+            (h->state == HYST_LOW && (h->offLag == 0 || dt >= h->offLag))) {
             h->stable = true;
             h->latchedState = h->state;
             return true;

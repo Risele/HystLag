@@ -7,7 +7,7 @@
 void run_c_hysteresis_test(const char* name,
                            HystDir direction,
                            float low, float high,
-                           unsigned long lowLag, unsigned long highLag,
+                           unsigned long offLag, unsigned long onLag,
                            const unsigned long* times,
                            const float* values,
                            const int* expectedActive,
@@ -27,11 +27,11 @@ void run_c_hysteresis_test(const char* name,
 
     fprintf(out, "# direction: %s\n", direction == HYST_DIR_UP ? "UP" : "DOWN");
     fprintf(out, "# lowThreshold: %.2f, highThreshold: %.2f\n", low, high);
-    fprintf(out, "# lowLag: %lu ms, highLag: %lu ms\n", lowLag, highLag);
+    fprintf(out, "# offLag: %lu ms, onLag: %lu ms\n", offLag, onLag);
     fprintf(out, "time_ms,input,state,active\n");
 
     HystLag hyst;
-    hystlag_init(&hyst, low, high, lowLag, highLag, direction);
+    hystlag_init(&hyst, low, high, offLag, onLag, direction);
 
     for (size_t i = 0; i < count; ++i) {
         unsigned long t = times[i];
@@ -119,13 +119,13 @@ void testInstantDownNoLag(void) {
     );
 }
 
-void testHighLagUp(void) {
+void testOnLagUp(void) {
     const unsigned long times[] = { 0, 100, 900, 1100 };
     const float values[] = { 2.0f, 8.0f, 8.0f, 8.0f };
     const int expected[] = { 0, 0, 0, 1 };
 
     run_c_hysteresis_test(
-        "UP, highLag delay",
+        "UP, onLag delay",
         HYST_DIR_UP,
         3.0f, 7.0f,
         0, 1000,
@@ -134,13 +134,13 @@ void testHighLagUp(void) {
     );
 }
 
-void testLowLagDown(void) {
+void testOffLagDown(void) {
     const unsigned long times[] = { 0, 100, 900, 1100 };
     const float values[] = { 8.0f, 2.0f, 2.0f, 2.0f };
     const int expected[] = { 0, 0, 0, 1 };
 
     run_c_hysteresis_test(
-        "DOWN, lowLag delay",
+        "DOWN, offLag delay",
         HYST_DIR_DOWN,
         3.0f, 7.0f,
         1000, 0,
@@ -217,8 +217,8 @@ void testFullCoverageSequence(void) {
 	testSimpleDown();
 	testInstantUpNoLag();
 	testInstantDownNoLag();
-	testHighLagUp();
-	testLowLagDown();
+	testOnLagUp();
+	testOffLagDown();
 	testBetweenNeverActivates();
 	testRapidToggling();
 	testFullCoverageSequence();

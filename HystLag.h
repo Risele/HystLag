@@ -8,8 +8,8 @@ public:
     enum State { HYST_LOW = -1, BETWEEN = 0, HYST_HIGH = 1 };
     enum Direction { UP, DOWN };
 
-    HystLag(float low, float high, unsigned long lowLag = 0, unsigned long highLag = 0, Direction direction = UP){
-        init(low, high, lowLag, highLag, direction);  
+    HystLag(float low, float high, unsigned long offLag = 0, unsigned long onLag = 0, Direction direction = UP){
+        init(low, high, offLag, onLag, direction);  
     }
       void reset() {
 
@@ -18,7 +18,7 @@ public:
         _stable = false;
         _lagStart = 0;
     }
-    void init(float low, float high, unsigned long lowLag, unsigned long highLag, Direction direction){
+    void init(float low, float high, unsigned long offLag, unsigned long onLag, Direction direction){
         if (low>high){
             _low = high;
             _high = low;
@@ -30,8 +30,8 @@ public:
         
         _low = low;
         _high = high;
-        _lowLag = lowLag;
-        _highLag = highLag;
+        _offLag = offLag;
+        _onLag = onLag;
         _direction = direction;
         reset();
 
@@ -53,8 +53,8 @@ public:
 
     if (!_stable) {
         unsigned long dt = currentTime - _lagStart;
-        if ((_state == HYST_HIGH && (_highLag == 0 || dt >= _highLag)) ||
-            (_state == HYST_LOW  && (_lowLag == 0  || dt >= _lowLag))) {
+        if ((_state == HYST_HIGH && (_onLag == 0 || dt >= _onLag)) ||
+            (_state == HYST_LOW  && (_offLag == 0  || dt >= _offLag))) {
             _stable = true;
             _latchedState = _state;
             onStabilize(_state);
@@ -82,7 +82,7 @@ public:
 
 private:
     float _low, _high;
-    unsigned long _lowLag, _highLag;
+    unsigned long _offLag, _onLag;
     unsigned long _lagStart;
     Direction _direction;
     State _state;

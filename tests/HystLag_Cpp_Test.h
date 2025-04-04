@@ -20,7 +20,7 @@ inline std::string stateToStr(HystLag::State state) {
 inline void testCase(const std::string& name,
               HystLag::Direction direction,
               float low, float high,
-              unsigned long lowLag, unsigned long highLag,
+              unsigned long offLag, unsigned long onLag,
               const std::vector<std::pair<unsigned long, float>>& samples,
               const std::vector<bool>& expectedActives)
 {
@@ -34,11 +34,11 @@ inline void testCase(const std::string& name,
     std::ofstream outFile(fileName);
 	outFile << "# direction: " << (direction == HystLag::UP ? "UP" : "DOWN") << "\n";
     outFile << "# lowThreshold: " << low << ", highThreshold: " << high << "\n";
-    outFile << "# lowLag: " << lowLag << " ms, highLag: " << highLag << " ms\n";
+    outFile << "# offLag: " << offLag << " ms, onLag: " << onLag << " ms\n";
     outFile << "time_ms,input,state,active\n";
     outFile << "time_ms,input,state,active\n";
 
-    HystLag hyst(low, high, lowLag, highLag, direction);
+    HystLag hyst(low, high, offLag, onLag, direction);
 
     HystLag::State lastState = HystLag::BETWEEN;
     bool lastActive = false;
@@ -124,17 +124,17 @@ inline void testInstantDownNoLag() {
         {false, true, false});
 }
 
-// 3. Long highLag, UP direction
-inline void testHighLagUp() {
-    testCase("UP, highLag delay",
+// 3. Long onLag, UP direction
+inline void testOnLagUp() {
+    testCase("UP, onLag delay",
         HystLag::UP, 3.0f, 7.0f, 0, 1000,
         {{0, 2.0f}, {100, 8.0f}, {900, 8.0f}, {1100, 8.0f}},
         {false, false, false, true});
 }
 
-// 4. Long lowLag, DOWN direction
-inline void testLowLagDown() {
-    testCase("DOWN, lowLag delay",
+// 4. Long offLag, DOWN direction
+inline void testOffLagDown() {
+    testCase("DOWN, offLag delay",
         HystLag::DOWN, 3.0f, 7.0f, 1000, 0,
         {{0, 8.0f}, {100, 2.0f}, {900, 2.0f}, {1100, 2.0f}},
         {false, false, false, true});

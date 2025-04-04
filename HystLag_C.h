@@ -25,8 +25,8 @@ typedef enum {
 typedef struct {
     float low;
     float high;
-    unsigned long lowLag;
-    unsigned long highLag;
+    unsigned long offLag;
+    unsigned long onLag;
     unsigned long lagStart;
 
     HystDir direction;
@@ -36,7 +36,7 @@ typedef struct {
 } HystLag;
 
 // Initialization
-void hystlag_init(HystLag* h, float low, float high, unsigned long lowLag, unsigned long highLag, HystDir dir);
+void hystlag_init(HystLag* h, float low, float high, unsigned long offLag, unsigned long onLag, HystDir dir);
 //Reset the current state to between
 void hystlag_reset(HystLag* h);
 // Update with input value and timestamp (in ms)
