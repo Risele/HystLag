@@ -7,7 +7,14 @@ class HystLag {
 public:
     enum State { HYST_LOW = -1, BETWEEN = 0, HYST_HIGH = 1 };
     enum Direction { UP, DOWN };
-
+	HystLag(){
+        _low=0;
+        _high=0;
+        _onLag=0;
+        _offLag=0;
+        _direction=UP;
+        reset();
+    }
     HystLag(float low, float high, unsigned long offLag = 0, unsigned long onLag = 0, Direction direction = UP){
         init(low, high, offLag, onLag, direction);  
     }
