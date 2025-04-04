@@ -37,7 +37,8 @@ typedef struct {
 
 // Initialization
 void hystlag_init(HystLag* h, float low, float high, unsigned long lowLag, unsigned long highLag, HystDir dir);
-
+//Reset the current state to between
+void hystlag_reset(HystLag* h);
 // Update with input value and timestamp (in ms)
 int hystlag_update(HystLag* h, float value, unsigned long currentTime);
 

@@ -10,19 +10,24 @@ static HystState calculate_state(const HystLag* h, float value) {
 
 void hystlag_init(HystLag* h, float low, float high, unsigned long lowLag, unsigned long highLag, HystDir dir) {
     if (low > high) {
-        float tmp = low;
-        low = high;
-	high = tmp;
+        h->high = low;
+        h->low = high;
+    } else{
+        h->low = low;
+        h->high = high;
     }
-    h->low = low;
-    h->high = high;
+       
     h->lowLag = lowLag;
     h->highLag = highLag;
     h->direction = dir;
+    hystlag_reset(h);
+}
+
+void hystlag_reset(HystLag* h) {
     h->state = HYST_BETWEEN;
     h->latchedState = HYST_BETWEEN;
     h->stable = false;
-    h->lagStart = false;
+    h->lagStart = 0;
 }
 
 int hystlag_update(HystLag* h, float value, unsigned long currentTime) {
