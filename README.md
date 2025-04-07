@@ -8,7 +8,7 @@ Supports both:
 
 ## Features
 - Configurable upper/lower thresholds
-- Time lag for stabilization (highLag, lowLag)
+- Time lag for stabilization (onLag, offLag)
 - Direction control (UP or DOWN triggering)
 ---
 ## Usage
@@ -107,7 +107,7 @@ Each file starts with parameters used:
 ```
 # direction: UP
 # lowThreshold: 3.00, highThreshold: 7.00
-# lowLag: 300 ms, highLag: 300 ms
+# offLag: 300 ms, onLag: 300 ms
 ```
 Transitions between different input values, states and activation are emphasized for plotting by placing additional point just before the transition.
 
